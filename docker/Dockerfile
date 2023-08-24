@@ -49,6 +49,7 @@ ADD . /workspace/build/fastertransformer_backend
 RUN mkdir -p /workspace/build/fastertransformer_backend/build
 
 WORKDIR /workspace/build/fastertransformer_backend/build
+ADD FasterTransformer /workspace/build/fastertransformer_backend/build/_deps/repo-ft-src/
 ARG FORCE_BACKEND_REBUILD=0
 RUN cmake \
       -D CMAKE_EXPORT_COMPILE_COMMANDS=1 \
@@ -58,6 +59,7 @@ RUN cmake \
       -D TRITON_COMMON_REPO_TAG="r${NVIDIA_TRITON_SERVER_VERSION}" \
       -D TRITON_CORE_REPO_TAG="r${NVIDIA_TRITON_SERVER_VERSION}" \
       -D TRITON_BACKEND_REPO_TAG="r${NVIDIA_TRITON_SERVER_VERSION}" \
+      -D FT_DIR="/workspace/build/fastertransformer_backend/build/_deps/repo-ft-src/" \      
       ..
 RUN cd _deps/repo-ft-src/ && \
     git log | head -n 3 2>&1 | tee /workspace/build/fastertransformer_backend/FT_version.txt && \
